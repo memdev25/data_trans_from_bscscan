@@ -10,8 +10,8 @@ const { bsc_apikey, start, end, filename } = require('./config')
 
 async function runScript(start, end, file_name, apikey){ 
     let range_timestamp = await getTimestamp(start, end)
-    let block_range = await getClosestBlock(range_timestamp)
-    // let block_range = [start, end]
+    // let block_range = await getClosestBlock(range_timestamp)
+    let block_range = [start, end]
 
     unpack_list = []
     const timer = ms => new Promise(res => setTimeout(res, ms))
@@ -20,7 +20,8 @@ async function runScript(start, end, file_name, apikey){
 
     async function load () { 
         for (address of list_contract){
-            let [list_tx] = await getTxFromContract(...block_range, address, apikey)              
+            // console.log(address)
+            let list_tx = await getTxFromContract(...block_range, address, apikey)              
             unpack_list = unpack_list.concat(list_tx)
             await timer(500); 
         }
@@ -40,8 +41,8 @@ async function runScript(start, end, file_name, apikey){
 // start here
 // --------------------
 
-// runScript(26007457, 27007007, filename, bsc_apikey)
+runScript(26950457, 27007007, filename, bsc_apikey)
 
-runScript(start, end, filename, bsc_apikey)
+// runScript(start, end, filename, bsc_apikey)
 
 

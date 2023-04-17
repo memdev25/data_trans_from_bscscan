@@ -4,8 +4,10 @@ const fsp = require('fs').promises;
 
 
 async function loadFile(filename) {
-    let wallets = await fsp.readFile(`./${filename}`, 'utf8');    
-    return wallets.split("\r\n")
+    let wallets = await fsp.readFile(`./${filename}`, 'utf8');  
+    list_address = wallets.split("\r\n")
+    const ress = list_address.filter((el) => el != "");
+    return ress
 }
 
 async function sliceAndRun(list_select, mainTask, size = null) {
@@ -133,9 +135,9 @@ async function sliceAndRunMain(list_select, mainTask, size = null) {
 
             const data_str = `${txhs};"${from}";"${to}";"${token}";"${amount}";"${price}";${block_date.toGMTString().slice(5)}\n`;
 
-            fs.appendFileSync("data.csv", data_str, "utf-8", (err) => {
+            fs.appendFile("data.csv", data_str, "utf-8", (err) => {
                 if (err) console.log(err);
-                else console.log("Data saved");
+                // else console.log("Data saved");
             });
                
         }
